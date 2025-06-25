@@ -16,9 +16,7 @@ app.get('/', (req, res) => res.send('Бот работает!'));
 app.listen(3000, () => console.log('🌐 Express сервер запущен на порту 3000'));
 
 function formatChannelName(username) {
-  return username.toLowerCase()
-    .replace(/\s+/g, '_')           // пробелы → подчёркивания
-    .replace(/[^a-zа-я0-9_]/gi, ''); // только латиница, кириллица, цифры, _
+  return username.toLowerCase().replace(/\s+/g, '_').replace(/[^a-zа-я0-9_]/gi, '');
 }
 
 const client = new Client({
@@ -48,22 +46,14 @@ client.once(Events.ClientReady, async () => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
-  if (!interaction.isButton()) return;
-  if (interaction.customId !== 'send_video') return;
+  if (!interaction.isButton() || interaction.customId !== 'send_video') return;
 
   const guild = interaction.guild;
   const member = interaction.member;
-
-  // Формируем дату (например, (24.06))
   const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const formattedDate = `(${day}.${month})`;
-
-  // Формируем имя канала — без "откат-", только username + дата
+  const formattedDate = `(${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')})`;
   const channelName = `${formatChannelName(member.user.username)}${formattedDate}`;
 
-  // Проверяем, есть ли уже канал с таким именем
   const existingChannel = guild.channels.cache.find(c => c.name === channelName);
   if (existingChannel) {
     return interaction.reply({
