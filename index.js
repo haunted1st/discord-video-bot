@@ -91,7 +91,7 @@ const channelName = `${formatChannelName(member.user.username)}-${formattedDate}
     });
 
     await privateChannel.send({
-      content: `👋 Привет, ${interaction.user}, отправь сюда своё откат с МП. Только ты и модераторы видят этот канал.\n\n` +
+      content: `👋 Привет, ${interaction.user}, отправь сюда свой откат с МП. Только ты и модераторы видят этот канал.\n\n` +
                `<@&${process.env.STAFF_ROLE_ID_1}> <@&${process.env.STAFF_ROLE_ID_2}> <@&${process.env.STAFF_ROLE_ID_3}>`
     });
 
