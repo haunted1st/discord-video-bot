@@ -16,7 +16,9 @@ app.get('/', (req, res) => res.send('Бот работает!'));
 app.listen(3000, () => console.log('🌐 Express сервер запущен на порту 3000'));
 
 function formatChannelName(username) {
-  return username.toLowerCase().replace(/\s+/g, '_').replace(/[^a-zа-я0-9_]/gi, '');
+  return username.toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zа-я0-9_().]/gi, ''); // добавлены () и .
 }
 
 const client = new Client({
