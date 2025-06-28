@@ -16,9 +16,7 @@ app.get('/', (req, res) => res.send('Бот работает!'));
 app.listen(3000, () => console.log('🌐 Express сервер запущен на порту 3000'));
 
 function formatChannelName(username) {
-  return username.toLowerCase()
-    .replace(/\s+/g, '_')
-    .replace(/[^a-zа-я0-9_().]/gi, ''); // добавлены () и .
+  return username.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/gi, '');
 }
 
 const client = new Client({
@@ -53,8 +51,8 @@ client.on(Events.InteractionCreate, async interaction => {
   const guild = interaction.guild;
   const member = interaction.member;
   const now = new Date();
-  const formattedDate = `(${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')})`;
-  const channelName = `${formatChannelName(member.user.username)}${formattedDate}`;
+const formattedDate = `${String(now.getDate()).padStart(2, '0')}_${String(now.getMonth() + 1).padStart(2, '0')}`;
+const channelName = `${formatChannelName(member.user.username)}-${formattedDate}`;
 
   const existingChannel = guild.channels.cache.find(c => c.name === channelName);
   if (existingChannel) {
